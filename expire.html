@@ -1,0 +1,316 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fee Expiry Details</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-color: #3a57e8;
+    --secondary-color: #f13c6f;
+    --light-bg: #f5f7fa;
+    --dark-text: #2c3e50;
+    --border-color: #e6e9f0;
+    --success-color: #28c76f;
+    --danger-color: #ea5455;
+    --whatsapp-color: #25D366;
+    --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  html, body {
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+    line-height: 1.6;
+  }
+  
+  .header {
+    background: linear-gradient(135deg, var(--primary-color), #5969e2);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header h2 {
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .container {
+    max-width: 1140px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+  
+  .card-header {
+    padding: 20px;
+    background-color: rgba(58, 87, 232, 0.05);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  
+  .card-body {
+    padding: 20px;
+    overflow-x: auto;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: white;
+    border-radius: 8px;
+  }
+  
+  thead {
+    background-color: rgba(58, 87, 232, 0.05);
+  }
+  
+  th {
+    padding: 15px 12px;
+    font-weight: 600;
+    text-align: left;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+  
+  td {
+    padding: 14px 12px; 
+    border-bottom: 1px solid var(--border-color);
+    color: var(--dark-text);
+    font-size: 0.95rem;
+  }
+  
+  tbody tr:hover {
+    background-color: rgba(58, 87, 232, 0.02);
+  }
+  
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--whatsapp-color);
+    color: white;
+    border-radius: 50px;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+  }
+  
+  .whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+  }
+  
+  .whatsapp-btn i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+  
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(58, 87, 232, 0.1);
+    border-radius: 50%;
+    border-left-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .no-data {
+    padding: 30px;
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+  }
+  
+  @media (max-width: 768px) {
+    .header h2 {
+      font-size: 1.5rem;
+    }
+    
+    th, td {
+      padding: 10px 8px;
+      font-size: 0.9rem;
+    }
+    
+    th {
+      font-size: 0.75rem;
+    }
+    
+    .whatsapp-btn {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+    
+    .whatsapp-btn span {
+      display: none;
+    }
+    
+    .whatsapp-btn i {
+      margin-right: 0;
+    }
+    
+    td:nth-child(3), th:nth-child(3), /* Gender */
+    td:nth-child(4), th:nth-child(4) { /* Age */
+      display: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      padding: 0 10px;
+      margin: 20px auto;
+    }
+    
+    .card-header, .card-body {
+      padding: 15px 10px;
+    }
+    
+    td:nth-child(1), th:nth-child(1) { /* Ref No */
+      display: none;
+    }
+  }
+</style>
+
+<div class="header">
+  <h2>Expired Gym Plans</h2>
+</div>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h3>Members with Expired Plans</h3>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="feeTable">
+          <thead>
+            <tr>
+              <th>Ref No</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th>Phone</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Data will be inserted here dynamically -->
+          </tbody>
+        </table>
+      </div>
+      <div id="loader" class="loader">
+        <div class="spinner"></div>
+      </div>
+      <div id="noData" class="no-data" style="display: none;">
+        No expired memberships found
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const today = new Date();
+  const tableBody = document.getElementById("tableBody");
+  const loader = document.getElementById("loader");
+  const noData = document.getElementById("noData");
+  
+  fetch("https://script.google.com/macros/s/AKfycby85jKiAmwdn2_0PAp83x9qWoN_RNlihcaKfAQ9XHGDiQVekZOwHYLUEbrHj6t0Bgq2LA/exec?mode=feeData")
+    .then(res => res.json())
+    .then(data => {
+      const feeData = data.feeData;
+      const members = data.members;
+      let hasExpiredPlans = false;
+
+      feeData.forEach(row => {
+        const validTo = new Date(row[2]);
+        if (validTo < today) {
+          hasExpiredPlans = true;
+          const member = members.find(m => m[0] === row[0]);
+          
+          if (member) {
+            const tableRow = document.createElement('tr');
+            tableRow.innerHTML = `
+              <td>${row[0]}</td>
+              <td>${member[1]}</td>
+              <td>${member[2]}</td>
+              <td>${member[3]}</td>
+              <td>${member[4]}</td>
+              <td>
+                <a href="https://wa.me/${member[4]}?text=💪%20Hello%20${member[1]},%20Your%20GYM%20Plan%20has%20expired.%20Please%20renew%20your%20plan%20to%20continue%20enjoying%20our%20services.%20🙂" 
+                   class="whatsapp-btn" 
+                   target="_blank">
+                  <i class="fab fa-whatsapp"></i>
+                  <span>Send</span>
+                </a>
+              </td>
+            `;
+            tableBody.appendChild(tableRow);
+          }
+        }
+      });
+
+      loader.style.display = "none";
+      
+      if (!hasExpiredPlans) {
+        noData.style.display = "block";
+      }
+    })
+    .catch(error => {
+      console.error('Error loading data:', error);
+      loader.style.display = "none";
+      noData.textContent = "Error loading data. Please try again.";
+      noData.style.display = "block";
+    });
+</script>

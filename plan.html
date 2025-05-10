@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Plan</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-light: #4361ee15;
+      --primary-dark: #3a56d4;
+      --secondary-color: #2b2d42;
+      --text-color: #2b2d42;
+      --border-color: #e0e0e0;
+      --background-color: #f8f9fa;
+      --success-color: #2ec4b6;
+      --error-color: #e63946;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .card-header {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    
+    .card-header h2 {
+      color: var(--secondary-color);
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--secondary-color);
+      font-size: 0.95rem;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .loader-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    #loader {
+      display: none;
+      border: 3px solid rgba(67, 97, 238, 0.3);
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .field-required::after {
+      content: "*";
+      color: var(--error-color);
+      margin-left: 4px;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 15px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>Submit a Plan</h2>
+        <p class="subtitle">Create a new plan with all necessary details</p>
+      </div>
+      
+      <form id="planForm">
+        <div class="form-group">
+          <label for="name" class="field-required">Plan Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter plan name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="duration" class="field-required">Duration</label>
+          <input type="number" id="duration" name="duration" placeholder="Number of days" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="amount" class="field-required">Amount</label>
+          <input type="number" id="amount" name="amount" placeholder="Enter amount in ₹" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="Enter plan description (optional)"></textarea>
+        </div>
+        
+        <button type="submit" class="btn">Submit Plan</button>
+      </form>
+      
+      <div class="loader-container">
+        <div id="loader"></div>
+      </div>
+      
+      <div class="success-message" id="successMessage">
+        Plan submitted successfully!
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const form = document.getElementById('planForm');
+    const loader = document.getElementById('loader');
+    const successMessage = document.getElementById('successMessage');
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      loader.style.display = 'block';
+      
+      const formData = new FormData(form);
+      fetch('https://script.google.com/macros/s/AKfycbz9scgR2CqvWn3LZ5sDs5LoeRJk5VRFr5AHwAA7WMxr7iO2mU8wBIS_ecGOd_q7RTezAQ/exec', {
+        method: 'POST',
+        body: formData
+      }).then(() => {
+        setTimeout(() => {
+          loader.style.display = 'none';
+          successMessage.style.display = 'block';
+          form.reset();
+          
+          setTimeout(() => {
+            successMessage.style.display = 'none';
+          }, 3000);
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>

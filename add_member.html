@@ -1,0 +1,279 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Member</title>
+<style>
+  :root {
+    --primary-color: #4c6ef5;
+    --primary-dark: #3b5bdb;
+    --secondary-color: #5a67d8;
+    --light-gray: #f7f9fc;
+    --border-color: #e4e9f2;
+    --text-color: #2e3a59;
+    --error-color: #e53e3e;
+    --success-color: #38b2ac;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  html {
+    background-color: #f5f7fa;
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .header h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  .card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.15);
+  }
+
+  .form-control::placeholder {
+    color: #a0aec0;
+  }
+
+  .btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+  }
+
+  .btn:hover {
+    background-color: var(--primary-dark);
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.25);
+  }
+
+  .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 0;
+  }
+
+  .form-col {
+    flex: 1;
+  }
+
+  .loader {
+    display: none;
+    border: 3px solid rgba(76, 110, 245, 0.1);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #718096;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+    
+    .card {
+      padding: 20px;
+    }
+    
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .form-control {
+      padding: 10px 12px;
+    }
+    
+    .btn {
+      padding: 12px 16px;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="header">
+    <h2>Add Member</h2>
+  </div>
+  
+  <div class="card">
+    <form id="memberForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-col">
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" class="form-control" required>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-col">
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" class="form-control" required>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-col">
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="number" id="phone" name="phone" class="form-control" required>
+          </div>
+        </div>
+        
+        <div class="form-col">
+          <div class="form-group">
+            <label for="plan">Membership Plan</label>
+            <select id="planSelect" name="plan" class="form-control" required></select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" class="form-control" required>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-col">
+          <div class="form-group">
+            <label for="height">Height (cm)</label>
+            <input type="text" id="height" name="height" class="form-control" required>
+          </div>
+        </div>
+        
+        <div class="form-col">
+          <div class="form-group">
+            <label for="weight">Weight (kg)</label>
+            <input type="text" id="weight" name="weight" class="form-control" required>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn">Add Member</button>
+    </form>
+    
+    <div id="loader" class="loader"></div>
+  </div>
+</div>
+
+<script>
+  const loader = document.getElementById('loader');
+  const form = document.getElementById('memberForm');
+  const planSelect = document.getElementById('planSelect');
+
+  fetch('https://script.google.com/macros/s/AKfycbw-yWhIkE6qHfSpXsV4r7jAFBFClR9n0ap2V0pLpGtVVWxOZp_NZqp1vi4H3Rm_kMH9hw/exec?mode=plans')
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(plan => {
+        const option = document.createElement('option');
+        option.value = plan;
+        option.textContent = plan;
+        planSelect.appendChild(option);
+      });
+    });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    loader.style.display = 'block';
+    const formData = new FormData(form);
+    fetch('https://script.google.com/macros/s/AKfycbw-yWhIkE6qHfSpXsV4r7jAFBFClR9n0ap2V0pLpGtVVWxOZp_NZqp1vi4H3Rm_kMH9hw/exec', {
+      method: 'POST',
+      body: formData
+    }).then(() => {
+      setTimeout(() => {
+        loader.style.display = 'none';
+        alert('Member added successfully!');
+        location.reload();
+      }, 2000);
+    });
+  });
+</script>

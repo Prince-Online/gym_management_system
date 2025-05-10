@@ -1,0 +1,243 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPI Setup</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-color: #4c6ef5;
+    --secondary-color: #5a67d8;
+    --input-bg: #f8f9fa;
+    --border-color: #e4e9f2;
+    --text-color: #2e3a59;
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  html, body {
+    height: 100%;
+    background: linear-gradient(to bottom right, #f9f9ff, #f5f7fa);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 420px;
+    margin: 20px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  .header-icon {
+    background-color: rgba(76, 110, 245, 0.1);
+    color: var(--primary-color);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+    font-size: 24px;
+  }
+  
+  .header h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 14px 14px 14px 45px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.15);
+  }
+  
+  .form-input::placeholder {
+    color: #a0aec0;
+  }
+  
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btn-submit:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  .loader {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(76, 110, 245, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+  }
+  
+  .loader-text {
+    display: inline-block;
+    color: var(--text-color);
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      padding: 20px;
+    }
+    
+    .header-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+    }
+    
+    .header h2 {
+      font-size: 1.3rem;
+    }
+    
+    .form-input {
+      padding: 12px 12px 12px 40px;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="header">
+    <div class="header-icon">
+      <i class="fas fa-wallet"></i>
+    </div>
+    <h2>Set UPI Details</h2>
+  </div>
+  
+  <div class="input-group">
+    <label for="merchant">Merchant Name</label>
+    <div class="input-wrapper">
+      <i class="fas fa-store input-icon"></i>
+      <input type="text" id="merchant" class="form-input" placeholder="Enter merchant name" required>
+    </div>
+  </div>
+  
+  <div class="input-group">
+    <label for="upi">UPI ID</label>
+    <div class="input-wrapper">
+      <i class="fas fa-at input-icon"></i>
+      <input type="text" id="upi" class="form-input" placeholder="Enter UPI ID" required>
+    </div>
+  </div>
+  
+  <button class="btn-submit" onclick="submitUPI()">
+    <span>Save UPI Details</span>
+  </button>
+  
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+    <span class="loader-text">Saving your UPI details...</span>
+  </div>
+</div>
+
+<script>
+  function submitUPI() {
+    const merchant = document.getElementById("merchant").value;
+    const upi = document.getElementById("upi").value;
+    
+    if (!merchant || !upi) {
+      alert("Please fill in all fields");
+      return;
+    }
+    
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
+    
+    fetch("https://script.google.com/macros/s/AKfycbw6156BmPFu3NJwcgpsorXouzznF57wNtAeJAvZ3qQ7EcELZ8y1k_XBCC_gy1t5dm9kiw/exec", {
+      method: "POST",
+      body: JSON.stringify({ mode: "setUpi", merchant, upi })
+    })
+    .then(res => res.text())
+    .then(response => {
+      loader.style.display = "none";
+      alert(response);
+      document.getElementById("merchant").value = "";
+      document.getElementById("upi").value = "";
+    })
+    .catch(error => {
+      loader.style.display = "none";
+      alert("An error occurred. Please try again.");
+    });
+  }
+</script>
